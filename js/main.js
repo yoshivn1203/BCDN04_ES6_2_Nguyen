@@ -102,30 +102,28 @@ const getEle = (id) => document.getElementById(id);
 let content = '';
 dataGlasses.map((glasses) => {
   content += `<div class='vglasses__items col-4' onclick="addGlasses('${glasses.id}')">
-    <img class='w-100' src=${glasses.src}>
-</div>`;
+                <img class='w-100' src=${glasses.src}>
+              </div>`;
 });
 
 getEle('vglassesList').innerHTML = content;
 
 window.addGlasses = (id) => {
   const selectedGlasses = dataGlasses.find((glasses) => glasses.id === id);
-  getEle('avatar').innerHTML = `
-    <img src="${selectedGlasses.virtualImg}">
+  const { name, brand, color, price, description, virtualImg } = selectedGlasses;
+
+  getEle('avatar').innerHTML = `<img src="${virtualImg}">`;
+  getEle('glassesInfo').innerHTML = `
+    <h5>${name} - ${brand} (${color})</h5>
+    <button class="btn btn-danger">$${price}</button>
+    <span class="text-success ml-2">Stocking</span>
+    <p class="mt-3">${description}</p>
     `;
   getEle('glassesInfo').style.display = 'block';
-  getEle('glassesInfo').innerHTML = `
-    <h5>${selectedGlasses.name} - ${selectedGlasses.brand} (${selectedGlasses.color})</h5>
-    <button class="btn btn-danger">$${selectedGlasses.price}</button>
-    <span class="text-success ml-2">Stocking</span>
-    <p class="mt-3">${selectedGlasses.description}</p>
-    `;
 };
 
-window.removeGlasses = (isOff) => {
-  if (isOff) {
-    document.querySelector('#avatar img').style.display = 'block';
-  } else {
-    document.querySelector('#avatar img').style.display = 'none';
-  }
+window.removeGlasses = (isTrue) => {
+  isTrue
+    ? (document.querySelector('#avatar img').style.display = 'none')
+    : (document.querySelector('#avatar img').style.display = 'block');
 };
